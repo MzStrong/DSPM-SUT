@@ -1,0 +1,4 @@
+node_modules/
+
+# ละเว้นไฟล์ .env
+.env
