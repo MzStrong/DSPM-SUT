@@ -1,0 +1,33 @@
+.login-root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F0F2F5;
+    width: 100vw;
+    height: 100vh;
+}
+
+.login-container {
+    padding: 10px 30px;
+}
+
+.logo-login {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 25px;
+}
+
+.custom-login-icon {
+    color: #1890FFed;
+}
+
+.rem-for {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-group{
+    display: block;
+    margin-top: 30px;
+
+}

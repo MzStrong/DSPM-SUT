@@ -1,0 +1,36 @@
+.register-root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F0F2F5;
+    /* width: 100vw;
+    height: 100vh; */
+}
+
+.content{
+    margin: 50px;
+}
+
+.register-container {
+    padding: 10px 30px;
+    /* margin: 50px; */
+}
+
+.logo-register {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 25px;
+}
+
+.custom-register-icon {
+    color: #1890FFed;
+}
+
+.rem-for {
+    display: flex;
+    justify-content: space-between;
+}
+
+.label-input{
+    margin-bottom: 5px;
+}

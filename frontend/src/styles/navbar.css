@@ -1,0 +1,37 @@
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.logo-icon {
+    width: 200px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    background: #FFFFFF33;
+}
+
+.header {
+    padding-left: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #d8e6f4;
+    justify-content: space-between;
+}
+
+.rightHead{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.headName{
+    font-size: 16px;
+}
