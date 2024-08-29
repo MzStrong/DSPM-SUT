@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const apiUrl = "http://localhost:3000";
 import axios from "axios";
 import { PolicyInterface } from "../../interfaces/Ipolicy";

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { Button, Divider, Form, Input, Modal } from 'antd';
 import { PolicyInterface } from '../../interfaces/Ipolicy';

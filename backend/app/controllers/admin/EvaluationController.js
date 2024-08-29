@@ -1,77 +1,106 @@
-const { Evaluation, Admin } = require("../../models/index");
+const { Evaluation, Topic, Admin } = require("../../models/index");
 
-exports.getAllPolicys = async (req, res) => {
+exports.getAllEvaluations = async (req, res) => {
   try {
-    const policy = await Policy.findAll();
-    res.status(200).json(policy);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-exports.createPolicy = async (req, res) => {
-  try {
-    const policyData = req.body;
-    policyData.status = true;
-
-    const admin = await Admin.findOne({
-      where: { email: req.user.email },
+    const evaluations = await Evaluation.findAll({
+      include: [
+        {
+          model: Topic, // แทนที่ Topic ด้วยชื่อโมเดลที่คุณกำหนดไว้ใน Sequelize
+          attributes: ["name"], // เลือกเฉพาะชื่อจาก Topic
+        },
+      ],
     });
-    policyData.adminId = admin.id
 
-    const newPolicy = await Policy.create(policyData);
-    res.status(201).json(newPolicy);
+    // ถ้าต้องการแสดงชื่อหัวข้อในการตอบกลับ
+    const response = evaluations.map((evaluation) => ({
+      ...evaluation.dataValues,
+      topicName: evaluation.topic ? evaluation.topic.name : null, // เพิ่มชื่อหัวข้อที่ดึงมาจาก Topic
+    }));
+
+    res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-exports.deletePolicy = async (req, res) => {
+exports.createEvaluation = async (req, res) => {
+  try {
+    const evaluationData = req.body;
+    // evaluationData.status = true;
+
+    // const admin = await Admin.findOne({
+    //   where: { email: req.user.email },
+    // });
+    // evaluationData.adminId = admin.id
+
+    const newEvaluation = await Evaluation.create(evaluationData);
+    res.status(201).json(newEvaluation);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.deleteEvaluation = async (req, res) => {
   try {
     const id = req.params;
-    const deletedPolicy = await Policy.destroy({ where: id });
+    const deletedEvaluation = await Evaluation.destroy({ where: id });
 
-    if (deletedPolicy) {
-      return res.status(200).json({ message: "Policy deleted successfully." });
+    if (deletedEvaluation) {
+      return res
+        .status(200)
+        .json({ message: "Evaluation deleted successfully." });
     } else {
-      return res.status(404).json({ error: "Policy not found." });
+      return res.status(404).json({ error: "Evaluation not found." });
     }
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 };
 
-exports.updatePolicy = async (req, res) => {
+exports.updateEvaluation = async (req, res) => {
   const id = req.params;
-  const { title, description } = req.body;
+  const {
+    skill,
+    link_video,
+    evaluation_method,
+    practice_skills,
+    age_months,
+    topicId,
+  } = req.body;
 
   try {
-    const updatedPolicy = await Policy.update(
-      { title, description },
+    const updatedEvaluation = await Evaluation.update(
+      {
+        skill,
+        link_video,
+        evaluation_method,
+        practice_skills,
+        age_months,
+        topicId,
+      },
       { where: id }
     );
 
-    if (updatedPolicy[0]) {
-      res.status(200).json({ message: "Policy updated successfully." });
+    if (updatedEvaluation[0]) {
+      res.status(200).json({ message: "Evaluation updated successfully." });
     } else {
-      res.status(404).json({ error: "Policy not found." });
+      res.status(404).json({ error: "Evaluation not found." });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-exports.updatePolicyStatus = async (req, res) => {
-  const { id } = req.params;
-  const { status } = req.body;
+// exports.updateEvaluationStatus = async (req, res) => {
+//   const { id } = req.params;
+//   const { status } = req.body;
 
-  try {
-    await Policy.update({ status }, { where: { id }, returning: true });
+//   try {
+//     await Evaluation.update({ status }, { where: { id }, returning: true });
 
-    const updatedPolicy = await Policy.findByPk(id);
-    return res.status(200).json(updatedPolicy);
-
-  } catch (error) {
-    res.status(500).json({ message: "Error updating policy" });
-  }
-};
+//     const updatedEvaluation = await Evaluation.findByPk(id);
+//     return res.status(200).json(updatedEvaluation);
+//   } catch (error) {
+//     res.status(500).json({ message: "Error updating evaluation" });
+//   }
+// };
