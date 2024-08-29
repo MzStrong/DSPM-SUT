@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const apiUrl = "http://localhost:3000";
 import axios from "axios";
-import { LoginInterface } from "../../interfaces/Iauth"
+import { LoginAdminInterface } from "../../interfaces/Iauth"
 
 // Login
-export async function login(authData: LoginInterface) {
+export async function login(authData: LoginAdminInterface) {
     try {
         const response = await axios.post(`${apiUrl}/auth/admin/login`, authData);
         sessionStorage.setItem("token", response.data.token)

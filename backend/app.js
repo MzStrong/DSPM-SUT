@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const { sequelize } = require("./app/models");
 const cors = require("cors");
-const { authenticateJWT } = require("./app/middlewares/auth");
+const { adminVerify, userVerify } = require("./app/middlewares/auth");
 const {
   createGenders,
   createRelationship,
@@ -28,18 +28,16 @@ const adminAuthRoute = require("./app/routes/adminAuthRoutes");
 const adminRoute = require("./app/routes/adminRoutes");
 // Admin routes
 app.use("/auth/admin", adminAuthRoute); // Route ที่ไม่ต้องตรวจ Token (Login)
-app.use("/admin", authenticateJWT, adminRoute); // Route ที่ต้องตรวจ Token
-
+app.use("/admin", adminVerify, adminRoute); // Route ที่ต้องตรวจ Token
 
 const userAuthRoute = require("./app/routes/userAuthRoutes");
 const userRoute = require("./app/routes/userRoutes");
 // User routes
 app.use("/auth/user", userAuthRoute); // Route ที่ไม่ต้องตรวจ Token (Login)
-app.use("/user", authenticateJWT, userRoute); // Route ที่ต้องตรวจ Token
-
+app.use("/user", userVerify, userRoute); // Route ที่ต้องตรวจ Token
 
 // Public Routes
-const publicRoute = require("./app/routes/publicRoutes")
+const publicRoute = require("./app/routes/publicRoutes");
 app.use("/api", publicRoute); // Route ที่ต้องตรวจ Token
 
 // Error handling middleware

@@ -11,11 +11,11 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     evaluation_method: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     practice_skills: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     age_months: {
