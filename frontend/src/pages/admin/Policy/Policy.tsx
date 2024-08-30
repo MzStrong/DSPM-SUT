@@ -1,14 +1,14 @@
 import { Button, Card, Divider, Form, message, Modal, Switch, Table, Tag } from "antd"
-import "../../styles/policy.css"
+import "../../../styles/policy.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { getPolicys } from "../../services/admin/policyService";
+import { getPolicys } from "../../../services/admin/policyService";
 import { useEffect, useState } from "react";
-import { PolicyInterface } from "../../interfaces/Ipolicy";
+import { PolicyInterface } from "../../../interfaces/Ipolicy";
 import { IoSettingsOutline } from "react-icons/io5";
 import { AiOutlineDelete } from "react-icons/ai";
-import { createPolicy, deletePolicy, editPolicy, updatePolicyStatus } from "../../services/admin/policyService";
-import CreatePolicyModal from "../../components/admin/CreatePolicyModal";
-import EditPolicyModal from "../../components/admin/EditPolicyModal";
+import { createPolicy, deletePolicy, editPolicy, updatePolicyStatus } from "../../../services/admin/policyService";
+import CreatePolicyModal from "../../../components/admin/CreatePolicyModal";
+import EditPolicyModal from "../../../components/admin/EditPolicyModal";
 
 // const { TextArea } = Input;
 
@@ -23,11 +23,11 @@ const Policy = () => {
   const [editform] = Form.useForm();
 
   useEffect(() => {
-    const getPolicies = async () => {
+    const fetchData = async () => {
       const res = await getPolicys();
       setPolicies(res)
     }
-    getPolicies();
+    fetchData();
   }, [refresh]);
 
   const handleCreate = async (values: PolicyInterface) => {

@@ -28,7 +28,7 @@ const CreatePolicyModal: React.FC<CreatePolicyModalProps> = ({ open, onClose, on
         form={form}
         name="normal_login"
         className="login-form"
-        initialValues={{ remember: true }}
+        // initialValues={{ remember: true }}
         onFinish={onCreate}
       >
         <h6>หัวข้อ :</h6>

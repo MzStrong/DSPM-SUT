@@ -12,10 +12,10 @@ interface EditEvaluationModalProps {
   onClose: () => void;
   onEdit: (values: EvaluationInterface) => void;
   form: any;
-  evaluation: EvaluationInterface | null;
+  // evaluation: EvaluationInterface | null;
 }
 
-const EditEvaluationModal: React.FC<EditEvaluationModalProps> = ({ open, onClose, onEdit, form, evaluation }) => {
+const EditEvaluationModal: React.FC<EditEvaluationModalProps> = ({ open, onClose, onEdit, form }) => {
 
   const [topics, setTopics] = useState<TopicInterface[]>([]);
 
@@ -47,7 +47,7 @@ const EditEvaluationModal: React.FC<EditEvaluationModalProps> = ({ open, onClose
         form={form}
         name="normal_login"
         className="login-form"
-        initialValues={evaluation || {}}
+        initialValues={form || {}}
         onFinish={onEdit}
       >
         <h6>กลุ่มทักษะ :</h6>
