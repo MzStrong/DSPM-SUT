@@ -11,7 +11,6 @@ export async function getEvaluations() {
                 Authorization: token
             }
         });
-        console.log(response.data);
         
         return response.data
 
@@ -37,8 +36,6 @@ export async function createEvaluation(evaluationData: EvaluationInterface) {
 }
 
 export async function editEvaluation(id: number, evaluationData: EvaluationInterface) {
-    console.log(evaluationData);
-
     const token = sessionStorage.getItem("token");
     try {
         const response = await axios.put(`${apiUrl}/admin/updateevaluation/${id}`, evaluationData, {

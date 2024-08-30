@@ -1,14 +1,14 @@
 import { Button, Card, Divider, Form, message, Modal, Table } from "antd"
-import "../../styles/evaluation.css"
+import style from "./Evaluation.module.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { getEvaluations } from "../../services/admin/evaluationService";
+import { getEvaluations } from "../../../services/admin/evaluationService";
 import { useEffect, useState } from "react";
-import { EvaluationInterface } from "../../interfaces/Ievaluation";
+import { EvaluationInterface } from "../../../interfaces/Ievaluation";
 import { IoSettingsOutline } from "react-icons/io5";
 import { AiOutlineDelete } from "react-icons/ai";
-import { createEvaluation, deleteEvaluation, editEvaluation } from "../../services/admin/evaluationService";
-import CreateEvaluationModal from "../../components/admin/CreateEvaluationModal";
-import EditEvaluationModal from "../../components/admin/EditEvaluationModal";
+import { createEvaluation, deleteEvaluation, editEvaluation } from "../../../services/admin/evaluationService";
+import CreateEvaluationModal from "../../../components/admin/CreateEvaluationModal";
+import EditEvaluationModal from "../../../components/admin/EditEvaluationModal";
 import { FaYoutube } from "react-icons/fa";
 
 // const { TextArea } = Input;
@@ -16,7 +16,7 @@ import { FaYoutube } from "react-icons/fa";
 const Evaluation = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [policies, setPolicies] = useState<EvaluationInterface[]>([])
-  const [selectedEvaluation, setSelectedEvaluation] = useState<EvaluationInterface | null>(null);
+  // const [selectedEvaluation, setSelectedEvaluation] = useState<EvaluationInterface | null>(null);
   const [createOpen, setCreateOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
   const [refresh, setRefresh] = useState(false);
@@ -24,11 +24,11 @@ const Evaluation = () => {
   const [editform] = Form.useForm();
 
   useEffect(() => {
-    const getPolicies = async () => {
+    const fetchData = async () => {
       const res = await getEvaluations();
       setPolicies(res)
     }
-    getPolicies();
+    fetchData();
   }, [refresh]);
 
   const handleCreate = async (values: EvaluationInterface) => {
@@ -52,23 +52,21 @@ const Evaluation = () => {
   }
 
   const handleEdit = async (values: EvaluationInterface) => {
-    if (selectedEvaluation) {
-      try {
-        await editEvaluation(selectedEvaluation.id, values);
-        messageApi.open({
-          type: 'success',
-          content: 'อัปเดต Evaluation เรียบร้อย',
-        });
-        setEditOpen(false);
-        editform.resetFields();
-        setRefresh(!refresh);
-      } catch (error) {
-        console.log(error);
-        messageApi.open({
-          type: 'error',
-          content: 'อัปเดตไม่สำเร็จ',
-        });
-      }
+    try {
+      await editEvaluation(editform.getFieldValue('id'), values);
+      messageApi.open({
+        type: 'success',
+        content: 'อัปเดต Evaluation เรียบร้อย',
+      });
+      setEditOpen(false);
+      editform.resetFields();
+      setRefresh(!refresh);
+    } catch (error) {
+      console.log(error);
+      messageApi.open({
+        type: 'error',
+        content: 'อัปเดตไม่สำเร็จ',
+      });
     }
   };
 
@@ -117,7 +115,7 @@ const Evaluation = () => {
   // };
 
   const openEditModal = (evaluation: EvaluationInterface) => {
-    setSelectedEvaluation(evaluation);
+    // setSelectedEvaluation(evaluation);
     editform.setFieldsValue(evaluation);
     setEditOpen(true);
   };
@@ -159,7 +157,7 @@ const Evaluation = () => {
           type="text"
           style={{ color: 'red', fontSize: '30px' }}
           onClick={() => window.open(text, '_blank')}
-          icon={<FaYoutube className="option-btn" style={{ alignItems: 'center' }} />}
+          icon={<FaYoutube className={style.optionBtn} style={{ alignItems: 'center' }} />}
         />
       ),
     },
@@ -168,7 +166,7 @@ const Evaluation = () => {
       key: 'action',
       width: 150,
       render: (_: string, record: EvaluationInterface) => (
-        <div className="option-btn">
+        <div className={style.optionBtn}>
           <Button
             type='text'
             onClick={() => openEditModal(record)}
@@ -199,10 +197,10 @@ const Evaluation = () => {
         onClose={() => setEditOpen(false)}
         onEdit={handleEdit}
         form={editform}
-        evaluation={selectedEvaluation}
+      // evaluation={selectedEvaluation}
       />
       <Card style={{ width: '100%' }}>
-        <div className="head">
+        <div className={style.head}>
           {contextHolder}
           <h2>Evaluation</h2>
 

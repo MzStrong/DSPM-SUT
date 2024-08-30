@@ -40,27 +40,6 @@ exports.loginAdmin = async (req, res) => {
   }
 };
 
-exports.getAllAdmins = async (req, res) => {
-  try {
-    const admins = await Admin.findAll();
-    res.status(200).json(admins);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-exports.createAdmin = async (req, res) => {
-  try {
-    const adminData = req.body;
-    adminData.password = await bcrypt.hash(adminData.password, 10);
-
-    const newAdmin = await Admin.create(adminData);
-    res.status(201).json(newAdmin);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
 exports.createAdmin = async (req, res) => {
   try {
     const adminData = req.body;
