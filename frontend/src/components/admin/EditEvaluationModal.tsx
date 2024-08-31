@@ -18,12 +18,13 @@ interface EditEvaluationModalProps {
 const EditEvaluationModal: React.FC<EditEvaluationModalProps> = ({ open, onClose, onEdit, form }) => {
 
   const [topics, setTopics] = useState<TopicInterface[]>([]);
+  const [selectedAge, setSelectedAge] = useState(0);
 
   useEffect(() => {
     const getRegD = async () => {
       try {
-        const regData = await getTopics();
-        setTopics(regData.data)
+        const topics = await getTopics();
+        setTopics(topics.data)
       } catch (error) {
         console.log(error);
       }
@@ -31,6 +32,15 @@ const EditEvaluationModal: React.FC<EditEvaluationModalProps> = ({ open, onClose
     getRegD();
 
   }, []);
+
+  useEffect(() => {
+    setSelectedAge(form.getFieldValue('start_age_months'))
+  }, [form, open]);
+
+  const handleFirstSelectChange = (value: any) => {
+    setSelectedAge(value);
+    form.setFieldsValue({ to_age_months: null });
+  };
 
   return (
     <Modal
@@ -73,24 +83,51 @@ const EditEvaluationModal: React.FC<EditEvaluationModalProps> = ({ open, onClose
         </Form.Item>
 
         <h6>อายุ (เดือน) :</h6>
-        <Form.Item
-          name="age_months"
-          rules={[{ required: true, message: 'กรุณาเลือกอายุ!' }]}
-        >
-          <Select placeholder="อายุ (เดือน)">
-            {(() => {
-              const options = [];
-              for (let i = 0; i <= 80; i++) {
-                options.push(
-                  <Select.Option key={i} value={i}>
-                    {i}
-                  </Select.Option>
-                );
-              }
-              return options;
-            })()}
-          </Select>
-        </Form.Item>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
+          <div style={{ flex: 1 }}>
+            <h6>ตั้งแต่</h6>
+            <Form.Item
+              name="start_age_months"
+              rules={[{ required: true, message: 'กรุณาเลือกอายุ!' }]}
+            >
+              <Select placeholder="อายุ (เดือน)" onChange={handleFirstSelectChange}>
+                {(() => {
+                  const options = [];
+                  for (let i = 0; i <= 80; i++) {
+                    options.push(
+                      <Select.Option key={i} value={i}>
+                        {i === 0 ? 'แรกเกิด' : i}
+                      </Select.Option>
+                    );
+                  }
+                  return options;
+                })()}
+              </Select>
+            </Form.Item>
+          </div>
+
+          <div style={{ flex: 1 }}>
+            <h6>ถึง </h6>
+            <Form.Item
+              name="to_age_months"
+              rules={[{ required: true, message: 'กรุณาเลือกอายุ!' }]}
+            >
+              <Select placeholder="อายุ (เดือน)">
+                {(() => {
+                  const options = [];
+                  for (let i = selectedAge; i <= 80; i++) {
+                    options.push(
+                      <Select.Option key={i} value={i}>
+                        {i === 0 ? 'แรกเกิด' : i}
+                      </Select.Option>
+                    );
+                  }
+                  return options;
+                })()}
+              </Select>
+            </Form.Item>
+          </div>
+        </div>
 
         <h6>ลิงค์วิดีโอ :</h6>
         <Form.Item
