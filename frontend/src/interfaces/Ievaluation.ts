@@ -4,6 +4,7 @@ export interface EvaluationInterface {
   link_video: string;
   evaluation_method: string;
   practice_skills: string;
-  age_months: string;
+  start_age_months: number;
+  to_age_months: number;
   topicId: number;
 }

@@ -9,6 +9,10 @@ exports.getAllEvaluations = async (req, res) => {
           attributes: ["name"], // เลือกเฉพาะชื่อจาก Topic
         },
       ],
+      order: [
+        ["start_age_months", "ASC"],
+        ["to_age_months", "ASC"],
+      ],
     });
 
     // ถ้าต้องการแสดงชื่อหัวข้อในการตอบกลับ
@@ -64,7 +68,8 @@ exports.updateEvaluation = async (req, res) => {
     link_video,
     evaluation_method,
     practice_skills,
-    age_months,
+    start_age_months,
+    to_age_months,
     topicId,
   } = req.body;
 
@@ -75,7 +80,8 @@ exports.updateEvaluation = async (req, res) => {
         link_video,
         evaluation_method,
         practice_skills,
-        age_months,
+        start_age_months,
+        to_age_months,
         topicId,
       },
       { where: id }
@@ -90,17 +96,3 @@ exports.updateEvaluation = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
-// exports.updateEvaluationStatus = async (req, res) => {
-//   const { id } = req.params;
-//   const { status } = req.body;
-
-//   try {
-//     await Evaluation.update({ status }, { where: { id }, returning: true });
-
-//     const updatedEvaluation = await Evaluation.findByPk(id);
-//     return res.status(200).json(updatedEvaluation);
-//   } catch (error) {
-//     res.status(500).json({ message: "Error updating evaluation" });
-//   }
-// };

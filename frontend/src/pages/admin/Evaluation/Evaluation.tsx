@@ -15,7 +15,7 @@ import { FaYoutube } from "react-icons/fa";
 
 const Evaluation = () => {
   const [messageApi, contextHolder] = message.useMessage();
-  const [policies, setPolicies] = useState<EvaluationInterface[]>([])
+  const [evaluations, setEvaluations] = useState<EvaluationInterface[]>([])
   // const [selectedEvaluation, setSelectedEvaluation] = useState<EvaluationInterface | null>(null);
   const [createOpen, setCreateOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
@@ -26,7 +26,7 @@ const Evaluation = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await getEvaluations();
-      setPolicies(res)
+      setEvaluations(res)
     }
     fetchData();
   }, [refresh]);
@@ -122,29 +122,42 @@ const Evaluation = () => {
 
   const columns = [
     {
+      title: 'อายุ (เดือน)',
+      key: 'age',
+      align: 'center' as const,
+      width: 150,
+      render: (record: { start_age_months: number; to_age_months: number }) =>
+        <div>
+          {`${record.start_age_months === record.to_age_months ?
+            `${record.start_age_months === 0 ? 'แรกเกิด' : record.start_age_months}` :
+            `${record.start_age_months === 0 ? 'แรกเกิด' : record.start_age_months} - ${record.to_age_months}`
+            }`}
+        </div>,
+    },
+    {
       title: 'ทักษะ',
       dataIndex: 'skill',
       key: 'skill',
       align: 'center' as const,
-      width: 200,
+      // width: 200,
       render: (text: string) => <div style={{ textAlign: 'left' }}>{text}</div>,
     },
-    {
-      title: 'วิธีประเมิน',
-      dataIndex: 'evaluation_method',
-      key: 'evaluation_method',
-      align: 'center' as const,
-      ellipsis: true,
-      // render: (text: string) => <div style={{ textAlign: 'left'}}>{text}</div>,
-    },
-    {
-      title: 'วิธีฝึกทักษะ',
-      dataIndex: 'practice_skills',
-      key: 'practice_skills',
-      align: 'center' as const,
-      ellipsis: true,
-      // render: (text: string) => <div style={{ textAlign: 'left'}}>{text}</div>,
-    },
+    // {
+    //   title: 'วิธีประเมิน',
+    //   dataIndex: 'evaluation_method',
+    //   key: 'evaluation_method',
+    //   align: 'center' as const,
+    //   ellipsis: true,
+    //   // render: (text: string) => <div style={{ textAlign: 'left'}}>{text}</div>,
+    // },
+    // {
+    //   title: 'วิธีฝึกทักษะ',
+    //   dataIndex: 'practice_skills',
+    //   key: 'practice_skills',
+    //   align: 'center' as const,
+    //   ellipsis: true,
+    //   // render: (text: string) => <div style={{ textAlign: 'left'}}>{text}</div>,
+    // },
     {
       title: 'วิดีโอ',
       dataIndex: 'link_video',
@@ -217,9 +230,9 @@ const Evaluation = () => {
         <Divider />
 
         <div style={{ padding: '0px 30px' }}>
-          <Table
+          <Table 
             columns={columns}
-            dataSource={policies}
+            dataSource={evaluations}
             rowKey="id" // กำหนด key สำหรับแต่ละแถว
           />
         </div>

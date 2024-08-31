@@ -18,7 +18,11 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    age_months: {
+    start_age_months: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    to_age_months: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
