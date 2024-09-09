@@ -2,8 +2,8 @@ const sequelize = require("../../config/db");
 
 const Relationship = require("./relationship")(sequelize);
 const Gender = require("./gender")(sequelize);
+const Child = require("./child")(sequelize);
 const User = require("./user")(sequelize);
-const Parent = require("./parent")(sequelize);
 const Admin = require("./admin")(sequelize);
 const Policy = require("./policy")(sequelize);
 const Confirmation = require("./confirmation")(sequelize);
@@ -12,17 +12,17 @@ const Evaluation = require("./evaluation")(sequelize);
 const Assetment = require("./assetment")(sequelize);
 
 // Define associations
-Relationship.hasMany(Parent);
-Parent.belongsTo(Relationship);
-
-Gender.hasMany(Parent);
-Parent.belongsTo(Gender);
-
-Parent.hasMany(User);
-User.belongsTo(Parent);
+Relationship.hasMany(Child);
+Child.belongsTo(Relationship);
 
 Gender.hasMany(User);
 User.belongsTo(Gender);
+
+User.hasMany(Child);
+Child.belongsTo(User);
+
+Gender.hasMany(Child);
+Child.belongsTo(Gender);
 
 Admin.hasMany(Policy);
 Policy.belongsTo(Admin);
@@ -39,15 +39,15 @@ Evaluation.belongsTo(Topic);
 Evaluation.hasMany(Assetment);
 Assetment.belongsTo(Evaluation);
 
-User.hasMany(Assetment);
-Assetment.belongsTo(User);
+Child.hasMany(Assetment);
+Assetment.belongsTo(Child);
 
 module.exports = {
   sequelize,
   Relationship,
   Gender,
+  Child,
   User,
-  Parent,
   Admin,
   Policy,
   Confirmation,

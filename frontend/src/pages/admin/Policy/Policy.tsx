@@ -35,7 +35,7 @@ const Policy = () => {
       await createPolicy(values);
       messageApi.open({
         type: 'success',
-        content: 'สร้าง Policy เรียบร้อย',
+        content: 'สร้างข้อตกลงเรียบร้อย',
       });
       setCreateOpen(false)
       form.resetFields()
@@ -56,7 +56,7 @@ const Policy = () => {
         await editPolicy(selectedPolicy.id, values);
         messageApi.open({
           type: 'success',
-          content: 'อัปเดต Policy เรียบร้อย',
+          content: 'อัปเดตข้อตกลงเรียบร้อย',
         });
         setEditOpen(false);
         editform.resetFields();
@@ -73,7 +73,7 @@ const Policy = () => {
 
   const handleDelete = async (id: number, title: string) => {
     Modal.confirm({
-      title: 'คุณต้องการที่จะลบ Policy ใช่ไหม?',
+      title: 'คุณต้องการที่จะลบข้อตกลงใช่ไหม?',
       content: `หัวข้อ : ${title} ?`,
       okText: 'ลบ',
       okType: 'danger',
@@ -83,14 +83,14 @@ const Policy = () => {
           await deletePolicy(id);
           messageApi.open({
             type: 'success',
-            content: 'ลบ Policy แล้ว',
+            content: 'ลบข้อตกลงแล้ว',
           });
           setRefresh(!refresh)
         } catch (error) {
           console.error('Delete error:', error);
           messageApi.open({
             type: 'error',
-            content: 'ลบ Policy ไม่สำเร็จ',
+            content: 'ลบข้อตกลงไม่สำเร็จ',
           });
         }
       }, onCancel() {
@@ -103,7 +103,7 @@ const Policy = () => {
       await updatePolicyStatus(id, status);
       messageApi.open({
         type: 'success',
-        content: 'อัปเดตสถานะ Policy เรียบร้อย',
+        content: 'อัปเดตสถานะข้อตกลงเรียบร้อย',
       });
       setRefresh(!refresh);
     } catch (error) {
@@ -194,16 +194,16 @@ const Policy = () => {
         policy={selectedPolicy}
       />
       <Card style={{ width: '100%' }}>
-        <div className="head">
+        <div className="head" style={{ padding: '10px 30px 0 30px' }}>
           {contextHolder}
-          <h2>Policy</h2>
+          <h2>ข้อตกลง</h2>
 
           <button
             type="button"
             className="btn btn-outline-success "
             onClick={() => { setCreateOpen(true) }}
           >
-            สร้าง Policy
+            สร้างข้อตกลง
           </button>
 
         </div>

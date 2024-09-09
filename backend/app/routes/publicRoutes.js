@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const userRelationship = require('../controllers/user/RelationshipController')
-const userGender = require('../controllers/user/GenderController')
-const topic = require('../controllers/admin/TopicController')
+const relationshipController = require('../controllers/public/RelationshipController')
+const genderController = require('../controllers/public/GenderController')
+const topicController = require('../controllers/public/TopicController')
 
 
-router.get("/relationships", userRelationship.getAllRelationships);
-router.get("/genders", userGender.getAllGenders);
-router.get("/topics", topic.getAllTopics);
+router.get("/relationships", relationshipController.getAllRelationships);
+router.get("/genders", genderController.getAllGenders);
+router.get("/topics", topicController.getAllTopics);
 
 module.exports = router;

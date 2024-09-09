@@ -17,7 +17,7 @@ async function createRelationship() {
   try {
     await Relationship.findOrCreate({ where: { name: "บิดา" } });
     await Relationship.findOrCreate({ where: { name: "มารดา" } });
-    await Relationship.findOrCreate({ where: { name: "อื่นๆ" } });
+    await Relationship.findOrCreate({ where: { name: "ผู้ปกครอง" } });
     console.log("Relationship created successfully");
   } catch (error) {
     console.error("Error creating relationship:", error);

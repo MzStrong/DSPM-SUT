@@ -5,8 +5,6 @@ import { LoginUserInterface, RegisterInterface } from "../../interfaces/Iauth"
 
 // Login
 export async function login(authData: LoginUserInterface) {
-    console.log(authData);
-    
     try {
         const response = await axios.post(`${apiUrl}/auth/user/login`, authData);
         sessionStorage.setItem("token", response.data.token)
@@ -35,27 +33,11 @@ export async function getUser() {
                 Authorization: token
             }
         });
-        if (response.status === 200) {
-            console.log(response);
-            
+        if (response.status === 200) {            
             return response.data;
         }
         // return true;
     } catch (err: any) {
         throw err.response.data.message;
-    }
-}
-
-
-// Register
-export async function getRegData() {
-    try {
-        const relations = await axios.get(`${apiUrl}/api/relationships`);
-        const genders = await axios.get(`${apiUrl}/api/genders`);
-        
-        return { relations: relations.data, genders: genders.data }
-
-    } catch (err: any) {
-        throw err.response;
     }
 }

@@ -15,8 +15,10 @@ import { UserRequireAuth } from './middlewares/UserRequireAuth';
 import UserLogin from './pages/user/UserLogin';
 import UserRegister from './pages/user/UserRegister'
 import UserHome from './pages/user/UserHome';
-import UserEvalution from './pages/user/UserEvalution';
+import UserEvalution from './pages/user/UserEvaluation/UserEvaluation';
 import UserManage from './pages/user/UserManage';
+import UserChildren from './pages/user/UserChildren/UserChildren';
+import ChildrenManager from './pages/admin/ChildrenManager/ChildrenManager';
 
 const App: React.FC = () => {
   return (
@@ -31,6 +33,7 @@ const App: React.FC = () => {
           <Route path="/admin/policy" element={<Policy />} />
           <Route path="/admin/usermanage" element={<UserManagement />} />
           <Route path="/admin/adminmanage" element={<AdminManagement />} />
+          <Route path="/admin/usermanage/children" element={<ChildrenManager />} />
         </Route>
         {/* user Route */}
         <Route element={
@@ -38,6 +41,7 @@ const App: React.FC = () => {
           <Route path="/" element={<UserHome/>} />
           <Route path="/evaluation" element={<UserEvalution/>} />
           <Route path="/account" element={<UserManage/>} />
+          <Route path="/children" element={<UserChildren/>} />
         </Route>
 
         {/* No Nav and Auth */}

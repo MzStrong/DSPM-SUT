@@ -1,7 +1,8 @@
 import { Button, Card, Form, Input, message, Select } from 'antd';
 import Logo from "../../assets/SUTHLOGO-01.png"
 import "../../styles/user/userRegister.css"
-import { register, getRegData } from "../../services/user/authService"
+import { register } from "../../services/user/authService"
+import { getGenders } from "../../services/public/publicService"
 import { RegisterInterface } from '../../interfaces/Iauth';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -15,8 +16,8 @@ const UserRegister = () => {
     useEffect(() => {
         const getRegD = async () => {
             try {
-                const regData = await getRegData();
-                setGenders(regData.genders)
+                const genders = await getGenders();
+                setGenders(genders.data)
             } catch (error) {
                 console.log(error);
             }

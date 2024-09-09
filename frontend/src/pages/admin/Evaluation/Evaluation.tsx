@@ -24,6 +24,13 @@ const Evaluation = () => {
   const [editform] = Form.useForm();
 
   useEffect(() => {
+    document.title = "DSPM - Evaluation";
+    return () => {
+      document.title = "DSPM";
+    };
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       const res = await getEvaluations();
       setEvaluations(res)
@@ -36,7 +43,7 @@ const Evaluation = () => {
       await createEvaluation(values);
       messageApi.open({
         type: 'success',
-        content: 'สร้าง Evaluation เรียบร้อย',
+        content: 'สร้างแบบทดสอบเรียบร้อย',
       });
       setCreateOpen(false)
       form.resetFields()
@@ -56,7 +63,7 @@ const Evaluation = () => {
       await editEvaluation(editform.getFieldValue('id'), values);
       messageApi.open({
         type: 'success',
-        content: 'อัปเดต Evaluation เรียบร้อย',
+        content: 'อัปเดตแบบทดสอบเรียบร้อย',
       });
       setEditOpen(false);
       editform.resetFields();
@@ -72,7 +79,7 @@ const Evaluation = () => {
 
   const handleDelete = async (id: number, skill: string) => {
     Modal.confirm({
-      title: 'ลบ Evaluation ใช่ไหม?',
+      title: 'ลบแบบทดสอบใช่ไหม?',
       content: `ทักษะ : ${skill} ?`,
       okText: 'ลบ',
       okType: 'danger',
@@ -82,14 +89,14 @@ const Evaluation = () => {
           await deleteEvaluation(id);
           messageApi.open({
             type: 'success',
-            content: 'ลบ Evaluation แล้ว',
+            content: 'ลบแบบทดสอบแล้ว',
           });
           setRefresh(!refresh)
         } catch (error) {
           console.error('Delete error:', error);
           messageApi.open({
             type: 'error',
-            content: 'ลบ Evaluation ไม่สำเร็จ',
+            content: 'ลบแบบทดสอบไม่สำเร็จ',
           });
         }
       }, onCancel() {
@@ -102,7 +109,7 @@ const Evaluation = () => {
   //     await updateEvaluationStatus(id, status);
   //     messageApi.open({
   //       type: 'success',
-  //       content: 'อัปเดตสถานะ Evaluation เรียบร้อย',
+  //       content: 'อัปเดตสถานะแบบทดสอบเรียบร้อย',
   //     });
   //     setRefresh(!refresh);
   //   } catch (error) {
@@ -213,16 +220,16 @@ const Evaluation = () => {
       // evaluation={selectedEvaluation}
       />
       <Card style={{ width: '100%' }}>
-        <div className={style.head}>
+        <div className={style.head} style={{ padding: '10px 30px 0 30px' }}>
           {contextHolder}
-          <h2>Evaluation</h2>
+          <h2>แบบทดสอบ</h2>
 
           <button
             type="button"
             className="btn btn-outline-success "
             onClick={() => { setCreateOpen(true) }}
           >
-            สร้าง Evaluation
+            สร้างแบบทดสอบ
           </button>
 
         </div>

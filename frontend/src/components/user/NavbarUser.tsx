@@ -5,7 +5,7 @@ import { Link, Outlet } from 'react-router-dom';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import { MdChecklistRtl } from 'react-icons/md';
 import { RiDashboard2Line } from 'react-icons/ri';
-import { FaRegUser } from 'react-icons/fa6';
+import { FaChildren, FaRegUser } from 'react-icons/fa6';
 import { IoLogOutOutline } from 'react-icons/io5';
 // import { useAdmin } from '../../middlewares/AdminRequireAuth';
 import { useUser } from '../../middlewares/UserRequireAuth';
@@ -40,7 +40,10 @@ const NavbarUser: React.FC = () => {
                     <Menu.Item key="2" icon={<MdChecklistRtl />}>
                         <Link className="text-decoration-none" to="/evaluation">แบบทดสอบ</Link>
                     </Menu.Item>
-                    <Menu.Item key="3" icon={<FaRegUser />}>
+                    <Menu.Item key="3" icon={<FaChildren />}>
+                        <Link className="text-decoration-none" to="/children">บุตรของฉัน</Link>
+                    </Menu.Item>
+                    <Menu.Item key="4" icon={<FaRegUser />}>
                         <Link className="text-decoration-none" to="/account">จัดการบัญชี</Link>
                     </Menu.Item>
                 </Menu>

@@ -1,7 +1,7 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const User = sequelize.define("users", {
+  const User = sequelize.define('users', {
     firstname: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -10,25 +10,22 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    hn: {
+    password: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    birthday: {
-      type: DataTypes.DATEONLY,
-      allowNull: false,
-    },
-    height: {
+    age: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    weight: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    congenital_disease: {
+    telnum: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    cardid: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
     },
   });
 

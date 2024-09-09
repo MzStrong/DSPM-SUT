@@ -1,4 +1,4 @@
-const { Evaluation, Topic, Admin } = require("../../models/index");
+const { Evaluation, Topic } = require("../../models/index");
 
 exports.getAllEvaluations = async (req, res) => {
   try {

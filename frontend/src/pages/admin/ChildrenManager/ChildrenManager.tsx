@@ -1,43 +1,50 @@
+import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { changePasswordAdmin, createAdmin, deleteAdmin, editAdmin, getAllAdmin } from "../../../services/admin/adminService";
+import { changeParent, createChild, deleteChild, editChild, getChild } from "../../../services/admin/childService";
 import { Button, Card, Divider, Form, message, Modal, Table } from "antd";
-import style from "./Admin.module.css"
-import CreateAdminModal from "../../../components/admin/AdminManagement/CreateAdminModal/CreateAdminModal";
-import { AdminInterface } from "../../../interfaces/Iadmin";
+import style from "./Children.module.css"
+import { ChildInterface } from "../../../interfaces/Ichild";
 import { IoSettingsOutline } from "react-icons/io5";
 import { AiOutlineDelete } from "react-icons/ai";
-import EditAdminModal from "../../../components/admin/AdminManagement/EditAdminModal/EditAdminModal";
-import { RiLockPasswordLine } from "react-icons/ri";
-import ChangePasswordAdminModal from "../../../components/admin/AdminManagement/ChangePasswordAdminModal/ChangePasswordAdminModal";
+import CreateChildModal from "../../../components/admin/ChildManagement/CreateChildModal/CreateChildModal";
+import EditChildModal from "../../../components/admin/ChildManagement/EditChildModal/EditChildModal";
+import dayjs from "dayjs";
+import ChangeParentChildModal from "../../../components/admin/ChildManagement/ChangeParentChildModal/ChangeParentChildModal";
+import { FaRegUser } from "react-icons/fa6";
+// import ChangeParentChildModal from "../../../components/admin/ChildManagement/ChangeParentChildModal/ChangeParentChildModal";
 
-const AdminManagement = () => {
+const ChildrenManager = () => {
 
-  const [admins, setAdmins] = useState([]);
+  const location = useLocation();
+  const user = location.state;
+
+  const [childs, setChilds] = useState([]);
   const [createOpen, setCreateOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
-  const [changePassOpen, setChangePassOpen] = useState(false)
+  const [changeParentOpen, setChangeParentOpen] = useState(false)
   const [form] = Form.useForm();
   const [editform] = Form.useForm();
-  const [changePassform] = Form.useForm();
+  const [changeParentform] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
   const [refresh, setRefresh] = useState(false);
-  // const [selectedAdmin, setSelectedAdmin] = useState<AdminInterface | null>(null);
+  // const [selectedChild, setSelectedChild] = useState<ChildInterface | null>(null);
 
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getAllAdmin()
-      setAdmins(res)
+      const res = await getChild(user.id)
+      setChilds(res)
     }
     fetchData()
-  }, [refresh]);
+  }, [user.id, refresh]);
 
-  const handleCreate = async (values: AdminInterface) => {
+  const handleCreate = async (values: ChildInterface) => {
+    values.userId = user.id;
     try {
-      await createAdmin(values);
+      await createChild(values);
       messageApi.open({
         type: 'success',
-        content: 'เพิ่มแอดมินเรียบร้อย',
+        content: 'เพิ่มบุตรเรียบร้อย',
       });
       setCreateOpen(false)
       form.resetFields()
@@ -52,12 +59,12 @@ const AdminManagement = () => {
     }
   }
 
-  const handleEdit = async (values: AdminInterface) => {
+  const handleEdit = async (values: ChildInterface) => {
     try {
-      await editAdmin(editform.getFieldValue('id'), values);
+      await editChild(editform.getFieldValue('id'), values);
       messageApi.open({
         type: 'success',
-        content: 'อัปเดตแอดมินเรียบร้อย',
+        content: 'อัปเดตบุตรเรียบร้อย',
       });
       setEditOpen(false);
       editform.resetFields();
@@ -70,45 +77,46 @@ const AdminManagement = () => {
       });
     }
   };
-  const handleChangePass = async (values: AdminInterface) => {
+
+  const handleChangeParent = async (values: ChildInterface) => {
     try {
-      await changePasswordAdmin(changePassform.getFieldValue('id'), values);
+      await changeParent(changeParentform.getFieldValue('id'), values);
       messageApi.open({
         type: 'success',
-        content: 'เปลี่ยนรหัสผ่านเรียบร้อย',
+        content: 'เปลี่ยนผู้ปกครองผ่านเรียบร้อย',
       });
-      setChangePassOpen(false);
-      changePassform.resetFields();
+      setChangeParentOpen(false);
+      changeParentform.resetFields();
       setRefresh(!refresh);
     } catch (error) {
       console.log(error);
       messageApi.open({
         type: 'error',
-        content: 'เปลี่ยนรหัสผ่านไม่สำเร็จ',
+        content: 'เปลี่ยนผู้ปกครองผ่านไม่สำเร็จ',
       });
     }
   };
 
   const handleDelete = async (id: number, firstname: string, lastname: string) => {
     Modal.confirm({
-      title: 'ลบแอดมินใช่ไหม?',
+      title: 'ลบบุตรใช่ไหม?',
       content: `ชื่อ : ${firstname} ${lastname} ?`,
       okText: 'ลบ',
       okType: 'danger',
       cancelText: 'ยกเลิก',
       onOk: async () => {
         try {
-          await deleteAdmin(id);
+          await deleteChild(id);
           messageApi.open({
             type: 'success',
-            content: 'ลบแอดมินแล้ว',
+            content: 'ลบบุตรแล้ว',
           });
           setRefresh(!refresh)
         } catch (error) {
           console.error('Delete error:', error);
           messageApi.open({
             type: 'error',
-            content: 'ลบแอดมินไม่สำเร็จ',
+            content: 'ลบบุตรไม่สำเร็จ',
           });
         }
       }, onCancel() {
@@ -116,16 +124,30 @@ const AdminManagement = () => {
     });
   }
 
-  const openEditModal = (admin: AdminInterface) => {
-    editform.setFieldsValue(admin);
+  const openEditModal = (child: ChildInterface) => {
+    const updatedChild = {
+      ...child,
+      birthday: typeof child.birthday === 'string' ? dayjs(child.birthday) : child.birthday,
+    };
+    editform.setFieldsValue(updatedChild);
+
     setEditOpen(true);
   };
-  const openChangePassModal = (admin: AdminInterface) => {
-    changePassform.setFieldsValue(admin);
-    setChangePassOpen(true);
+  const openChangeParentModal = (child: ChildInterface) => {
+    changeParentform.setFieldsValue(child);
+    setChangeParentOpen(true);
+    // console.log(child);
   };
 
   const columns = [
+    {
+      title: 'HN',
+      dataIndex: 'hn',
+      key: 'hn',
+      align: 'center' as const,
+      ellipsis: true,
+      // render: (text: string) => <div style={{ textAlign: 'left'}}>{text}</div>,
+    },
     {
       title: 'ชื่อ-สกุล',
       key: 'name',
@@ -134,26 +156,26 @@ const AdminManagement = () => {
       render: (record: { firstname: string; lastname: string }) => <div>{`${record.firstname} ${record.lastname}`}</div>,
     },
     {
-      title: 'อีเมล',
-      dataIndex: 'email',
-      key: 'email',
-      align: 'center' as const,
-      ellipsis: true,
-      // render: (text: string) => <div style={{ textAlign: 'left'}}>{text}</div>,
-    },
-    {
-      title: 'เบอร์โทร',
-      dataIndex: 'phone',
+      title: 'เพศ',
+      dataIndex: 'gender',
       key: 'phone',
       align: 'center' as const,
       ellipsis: true,
-      // render: (text: string) => <div style={{ textAlign: 'left' }}>{text}</div>,
+      render: (gender: { name: string }) => <div>{gender.name}</div>,
+    },
+    {
+      title: 'ความสัมพันธ์ (ผู้ปกครอง)',
+      dataIndex: 'relationship',
+      key: 'relationship',
+      align: 'center' as const,
+      ellipsis: true,
+      render: (relationship: { name: string }) => <div>{relationship.name}</div>,
     },
     {
       title: 'การจัดการ',
       key: 'action',
       width: 150,
-      render: (_: string, record: AdminInterface) => (
+      render: (_: string, record: ChildInterface) => (
         <div className={style.optionBtn}>
           <Button
             type='text'
@@ -162,8 +184,8 @@ const AdminManagement = () => {
           />
           <Button
             type='text'
-            onClick={() => openChangePassModal(record)}
-            icon={<RiLockPasswordLine style={{ fontSize: '25px', color: '#C89333' }} />}
+            onClick={() => openChangeParentModal(record)}
+            icon={<FaRegUser style={{ fontSize: '23px', color: '#C89333' }} />}
           />
           <Button
             type='text'
@@ -176,42 +198,42 @@ const AdminManagement = () => {
     },
   ];
 
-  return (
+  return !user ? <div>Error</div> : (
     <>
-      <CreateAdminModal
+      <CreateChildModal
         open={createOpen}
         onClose={() => setCreateOpen(false)}
         onCreate={handleCreate}
         form={form}
       />
 
-      <EditAdminModal
+      <EditChildModal
         open={editOpen}
         onClose={() => setEditOpen(false)}
         onEdit={handleEdit}
         form={editform}
-      // admin={selectedAdmin}
+      // child={selectedChild}
       />
 
-      <ChangePasswordAdminModal
-        open={changePassOpen}
-        onClose={() => setChangePassOpen(false)}
-        onEdit={handleChangePass}
-        form={changePassform}
-      // admin={selectedAdmin}
+      <ChangeParentChildModal
+        open={changeParentOpen}
+        onClose={() => setChangeParentOpen(false)}
+        onEdit={handleChangeParent}
+        form={changeParentform}
+      // child={selectedChild}
       />
 
       <Card style={{ width: '100%' }}>
         <div className={style.head} style={{ padding: '10px 30px 0 30px' }}>
           {contextHolder}
-          <h2>จัดการแอดมิน</h2>
+          <h2>จัดการบุตร ({user.firstname} {user.lastname})</h2>
 
           <button
             type="button"
             className="btn btn-outline-success "
             onClick={() => { setCreateOpen(true) }}
           >
-            เพิ่มแอดมิน
+            เพิ่มบุตร
           </button>
 
         </div>
@@ -221,7 +243,7 @@ const AdminManagement = () => {
         <div style={{ padding: '0px 30px' }}>
           <Table
             columns={columns}
-            dataSource={admins}
+            dataSource={childs}
             rowKey="id"
           />
         </div>
@@ -231,4 +253,4 @@ const AdminManagement = () => {
   )
 }
 
-export default AdminManagement
+export default ChildrenManager
