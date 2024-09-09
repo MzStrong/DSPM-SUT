@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Divider, Form, Input, Modal, Select } from 'antd';
 import { EvaluationInterface } from '../../interfaces/Ievaluation';
 import { TopicInterface } from '../../interfaces/Itopic';
-import { getTopics } from '../../services/publicService';
+import { getTopics } from '../../services/public/publicService';
 
 const { TextArea } = Input;
 
@@ -50,7 +50,7 @@ const EditEvaluationModal: React.FC<EditEvaluationModalProps> = ({ open, onClose
       onCancel={onClose}
     >
       <div className="head-modal">
-        อัปเดต Evaluation
+        อัปเดตแบบทดสอบ
       </div>
       <Divider />
       <Form

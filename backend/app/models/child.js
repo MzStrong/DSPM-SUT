@@ -1,7 +1,7 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  const Parent = sequelize.define('parents', {
+  const Child = sequelize.define("childs", {
     firstname: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -10,24 +10,28 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    age: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    telnum: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    cardid: {
+    hn: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },
+    birthday: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+    },
+    height: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    weight: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    congenital_disease: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   });
 
-  return Parent;
+  return Child;
 };

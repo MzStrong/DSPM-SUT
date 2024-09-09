@@ -1,14 +1,14 @@
-const { Parent } = require("../../models/index");
+const { User } = require("../../models/index");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const SECRET = process.env.SECRET_JWT;
 
 // Login Admin
-exports.loginParent = async (req, res) => {
+exports.loginUser = async (req, res) => {
   const { cardid, password } = req.body;
 
   try {
-    const result = await Parent.findOne({
+    const result = await User.findOne({
       where: { cardid },
     });
     if (!result) {
@@ -49,13 +49,13 @@ exports.getAllAdmins = async (req, res) => {
 };
 
 // Register
-exports.createParent = async (req, res) => {
+exports.createUser = async (req, res) => {
   const { cardid, password } = req.body;
   try {
-    const parentData = req.body;
-    parentData.password = await bcrypt.hash(parentData.password, 10);
+    const userData = req.body;
+    userData.password = await bcrypt.hash(userData.password, 10);
 
-    await Parent.create(parentData);
+    await User.create(userData);
     const token = jwt.sign({ cardid, role: "user" }, SECRET, {
       expiresIn: "1h",
     });
@@ -72,7 +72,7 @@ exports.createParent = async (req, res) => {
 exports.getUser = async (req, res) => {
   try {
     // ค้นหาผู้ใช้จาก email
-    const user = await Parent.findOne({
+    const user = await User.findOne({
       where: { cardid: req.user.cardid },
     });
 

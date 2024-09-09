@@ -39,7 +39,7 @@ const CreateAdminModal: React.FC<CreateAdminModalProps> = ({ open, onClose, onCr
       onCancel={onClose}
     >
       <div className="head-modal">
-        เพิ่ม Admin
+        เพิ่มแอดมิน
       </div>
       <Divider />
       <Form

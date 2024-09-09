@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Divider, Form, Input, Modal, Select } from 'antd';
 import { EvaluationInterface } from '../../interfaces/Ievaluation';
 import { TopicInterface } from '../../interfaces/Itopic';
-import { getTopics } from '../../services/publicService';
+import { getTopics } from '../../services/public/publicService';
 
 const { TextArea } = Input;
 
@@ -47,7 +47,7 @@ const CreateEvaluationModal: React.FC<CreateEvaluationModalProps> = ({ open, onC
       onCancel={onClose}
     >
       <div className="head-modal">
-        สร้าง Evaluation
+        สร้างแบบทดสอบ
       </div>
       <Divider />
       <Form

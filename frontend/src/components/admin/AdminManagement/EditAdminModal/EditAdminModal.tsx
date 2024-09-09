@@ -22,7 +22,7 @@ const EditAdminModal: React.FC<EditAdminModalProps> = ({ open, onClose, onEdit, 
       onCancel={onClose}
     >
       <div className="head-modal">
-        อัปเดต Admin
+        อัปเดตข้อมูล
       </div>
       <Divider />
       <Form

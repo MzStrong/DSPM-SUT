@@ -37,6 +37,16 @@ const UserLogin = () => {
         });
     };
 
+    const handleCardIDChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const input = event.target.value;
+        // Remove all non-digit characters
+        const numericValue = input.replace(/\D/g, '');
+        // Limit to 13 digits
+        if (numericValue.length <= 13) {
+            event.target.value = numericValue;
+        }
+    };
+
     return (
         <>
             <div className="login-root">
@@ -55,12 +65,19 @@ const UserLogin = () => {
                             >
                                 <Form.Item
                                     name="cardid"
-                                    rules={[{ required: true, message: 'กรุณาป้อนเลขบัตรประชาชน!' }]}
+
+                                    rules={[
+                                        { required: true, message: 'กรุณากรอกเลขบัตรประชาชน!' },
+                                        { len: 13, message: 'เลขบัตรประชาชนต้องมี 13 หลัก!' },
+                                        // { pattern: /^\d{13}$/, message: 'เลขบัตรประชาชนต้องเป็นตัวเลขทั้งหมด!' }
+                                    ]}
                                 >
                                     <Input
-                                        prefix={<UserOutlined
-                                            className="site-form-item-icon custom-login-icon" />}
                                         placeholder="เลขบัตรประชาชน"
+                                        prefix={<UserOutlined className="site-form-item-icon custom-login-icon" />}
+                                        maxLength={13} // Prevent more than 13 characters from being entered
+                                        onChange={handleCardIDChange}
+                                        onInput={handleCardIDChange} // Additional event handling for input
                                     />
                                 </Form.Item>
                                 <Form.Item

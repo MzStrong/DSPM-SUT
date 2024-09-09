@@ -22,7 +22,7 @@ const EditPolicyModal: React.FC<EditPolicyModalProps> = ({ open, onClose, onEdit
       onCancel={onClose}
     >
       <div className="head-modal">
-        อัปเดต Policy
+        อัปเดตข้อตกลง
       </div>
       <Divider />
       <Form

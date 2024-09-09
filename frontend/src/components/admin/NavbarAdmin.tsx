@@ -34,19 +34,19 @@ const NavbarAdmin: React.FC = () => {
                 </div>
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
                     <Menu.Item key="1" icon={<RiDashboard2Line />}>
-                        <Link className="text-decoration-none" to="/admin">Dashboard</Link>
+                        <Link className="text-decoration-none" to="/admin">แดชบอร์ด</Link>
                     </Menu.Item>
                     <Menu.Item key="2" icon={<MdChecklistRtl />}>
-                        <Link className="text-decoration-none" to="/admin/evaluation">Evaluation</Link>
+                        <Link className="text-decoration-none" to="/admin/evaluation">แบบทดสอบ</Link>
                     </Menu.Item>
                     <Menu.Item key="3" icon={<MdOutlinePolicy />}>
-                        <Link className="text-decoration-none" to="/admin/policy">Policy</Link>
+                        <Link className="text-decoration-none" to="/admin/policy">ข้อตกลง</Link>
                     </Menu.Item>
                     <Menu.Item key="4" icon={<FaRegUser />}>
-                        <Link className="text-decoration-none" to="/admin/usermanage">User Management</Link>
+                        <Link className="text-decoration-none" to="/admin/usermanage">จัดการผู้ใช้</Link>
                     </Menu.Item>
                     <Menu.Item key="5" icon={<RiAdminLine />}>
-                        <Link className="text-decoration-none" to="/admin/adminmanage">Admin Management</Link>
+                        <Link className="text-decoration-none" to="/admin/adminmanage">จัดการแอดมิน</Link>
                     </Menu.Item>
                 </Menu>
             </Sider>
@@ -70,8 +70,7 @@ const NavbarAdmin: React.FC = () => {
                         />
                     </div>
                 </Header>
-                <Content style={{ margin: '24px 16px', padding: 24, minHeight: 280 }}>
-                    {/* {children} */}
+                <Content style={{ margin: '24px 16px', padding: 24, height: 'calc(100vh - 64px - 48px)', overflowY: 'auto' }}>
                     <Outlet />
                 </Content>
             </Layout>

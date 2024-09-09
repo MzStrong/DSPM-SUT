@@ -21,7 +21,7 @@ const CreatePolicyModal: React.FC<CreatePolicyModalProps> = ({ open, onClose, on
       onCancel={onClose}
     >
       <div className="head-modal">
-        สร้าง Policy
+        สร้างข้อตกลง
       </div>
       <Divider />
       <Form
